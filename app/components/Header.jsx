@@ -26,9 +26,10 @@ export default function Header() {
   };
 
   const navLinks = [
-    { name: 'Journey', id: 'journey' },
-    { name: 'Architecture', id: 'architecture' },
+    { name: 'Solution', id: 'solution' },
     { name: 'Impact', id: 'impact' },
+    { name: 'Ecosystem', id: 'journey' },
+    { name: 'Partners', id: 'partners' },
     { name: 'FAQ', id: 'faq' },
   ];
 
@@ -67,10 +68,10 @@ export default function Header() {
 
         {/* CTA */}
         <button 
-          onClick={() => scrollToSection('hero')}
+          onClick={() => scrollToSection('join')}
           className="hidden md:flex bg-slate-800 text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
         >
-          Join Waitlist
+          Join the Movement
         </button>
 
         {/* Mobile Menu Toggle */}
@@ -110,10 +111,10 @@ export default function Header() {
             </button>
           ))}
           <button 
-            onClick={() => scrollToSection('hero')}
+            onClick={() => scrollToSection('join')}
             className="w-full mt-2 bg-slate-800 text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-slate-700 transition-colors"
           >
-            Join Waitlist
+            Join the Movement
           </button>
         </div>
       </motion.div>
