@@ -43,22 +43,13 @@ export default function Header() {
           Swanirbhar <span className="text-slate-400 font-light transition-colors group-hover:text-slate-600">2.0</span>
         </div>
 
-        {/* Navigation & CTA */}
-        <div className="flex items-center gap-4 md:gap-6">
-          <button 
-            onClick={() => window.location.href = '/impact'}
-            className="text-slate-500 hover:text-slate-900 font-sans font-bold text-xs md:text-sm tracking-widest uppercase transition-colors"
-          >
-            /swanirbhar-impact
-          </button>
-
-          <button 
-            onClick={() => scrollToSection('hero')}
-            className="bg-slate-800 text-white rounded-full px-5 py-2 md:px-7 md:py-3 text-xs md:text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95 flex items-center gap-2"
-          >
-            Join Waitlist
-          </button>
-        </div>
+        {/* Navigation */}
+        <button 
+          onClick={() => window.location.href = '/impact'}
+          className="text-slate-500 hover:text-slate-900 font-sans font-bold text-xs md:text-sm tracking-widest uppercase transition-colors"
+        >
+          /swanirbhar-impact
+        </button>
       </div>
     </motion.header>
   );
