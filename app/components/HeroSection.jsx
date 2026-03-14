@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabaseClient';
 export default function HeroSection() {
   const [cursorBlink, setCursorBlink] = useState(true);
   const [email, setEmail] = useState('');
-  const [userType, setUserType] = useState('student');
+  const [userType, setUserType] = useState('');
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -20,7 +20,10 @@ export default function HeroSection() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) return;
+    if (!email || !userType) {
+      if (!userType) setErrorMessage('Please select your role.');
+      return;
+    }
 
     setStatus('loading');
     setErrorMessage('');
@@ -120,8 +123,10 @@ export default function HeroSection() {
                         value={userType}
                         onChange={(e) => setUserType(e.target.value)}
                         disabled={status === 'loading'}
+                        required
                         className="w-full appearance-none bg-transparent shadow-[inset_4px_4px_8px_#e3e3de,inset_-4px_-4px_8px_#ffffff] rounded-2xl px-6 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-slate-400/50 transition-all font-sans cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >
+                        <option value="" disabled hidden>Select Role...</option>
                         <option value="student">Student / Learner</option>
                         <option value="university">University / Institute</option>
                         <option value="industry">Industry Partner</option>
