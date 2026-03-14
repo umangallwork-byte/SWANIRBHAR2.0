@@ -46,28 +46,19 @@ export default function CallToAction() {
 
         <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6 w-full">
           <button 
-            onClick={() => {
-              const el = document.getElementById('hero');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => window.location.href = '/'}
             className="w-full sm:w-auto bg-slate-800 text-white rounded-2xl px-10 py-5 font-medium tracking-wide text-lg hover:bg-slate-700 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 active:scale-[0.98] outline-none"
           >
             Become a Partner
           </button>
           <button 
-            onClick={() => {
-              const el = document.getElementById('hero');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => window.location.href = '/'}
             className="w-full sm:w-auto bg-transparent border-2 border-slate-300 text-slate-700 shadow-[inset_4px_4px_8px_#ffffff,inset_-4px_-4px_8px_#e3e3de] rounded-2xl px-10 py-5 font-medium tracking-wide text-lg hover:border-slate-400 hover:bg-slate-50 transition-all duration-300 active:scale-[0.98] outline-none"
           >
             Support the Mission
           </button>
           <button 
-            onClick={() => {
-              const el = document.getElementById('hero');
-              if (el) el.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => window.location.href = '/'}
             className="w-full sm:w-auto bg-transparent border-2 border-slate-300 text-slate-700 shadow-[inset_4px_4px_8px_#ffffff,inset_-4px_-4px_8px_#e3e3de] rounded-2xl px-10 py-5 font-medium tracking-wide text-lg hover:border-slate-400 hover:bg-slate-50 transition-all duration-300 active:scale-[0.98] outline-none"
           >
             Join the Ecosystem

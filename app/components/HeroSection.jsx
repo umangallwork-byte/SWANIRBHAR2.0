@@ -50,6 +50,17 @@ export default function HeroSection() {
   return (
     <section className="w-full py-20 md:py-32 min-h-[85vh] flex flex-col justify-center">
       <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center justify-center text-center w-full">
+        {/* Launching Soon Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="mb-8 inline-flex items-center gap-2 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] rounded-full px-5 py-2"
+        >
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-slate-600">Launching Soon</span>
+        </motion.div>
+
         {/* Antigravity Inspired Header */}
         <div className="mb-12 flex flex-col items-center">
           <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight text-slate-800 tracking-tight flex items-center justify-center flex-wrap gap-2">

@@ -10,7 +10,6 @@ import WhyItMatters from './components/WhyItMatters';
 import Testimonials from './components/Testimonials';
 import NextChapter from './components/NextChapter';
 import CallToAction from './components/CallToAction';
-import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 
 export default function Home() {
@@ -28,7 +27,6 @@ export default function Home() {
       <div id="testimonials"><Testimonials /></div>
       <div id="next-chapter"><NextChapter /></div>
       <div id="join"><CallToAction /></div>
-      <div id="faq"><FAQ /></div>
       <Footer />
     </main>
   );

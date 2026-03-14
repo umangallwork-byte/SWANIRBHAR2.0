@@ -30,7 +30,6 @@ export default function Header() {
     { name: 'Impact', id: 'impact' },
     { name: 'Ecosystem', id: 'journey' },
     { name: 'Partners', id: 'partners' },
-    { name: 'FAQ', id: 'faq' },
   ];
 
   return (
@@ -50,7 +49,7 @@ export default function Header() {
           onClick={() => window.location.href = '/'}
           className="font-serif text-2xl font-bold text-slate-800 tracking-tight cursor-pointer flex items-center gap-1 group"
         >
-          Swanirbhar <span className="text-slate-400 font-light transition-colors group-hover:text-slate-600">2.0</span> <span className="text-sm font-sans tracking-wide ml-2 bg-slate-200 px-2 py-0.5 rounded-md text-slate-500 hidden sm:block">IMPACT</span>
+          Swanirbhar <span className="text-sm font-sans tracking-wide ml-2 bg-slate-200 px-2 py-0.5 rounded-md text-slate-500 hidden sm:block">IMPACT</span>
         </div>
 
         {/* Navigation - Desktop */}
