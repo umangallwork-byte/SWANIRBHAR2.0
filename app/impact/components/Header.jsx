@@ -67,7 +67,7 @@ export default function Header() {
 
         {/* CTA */}
         <button 
-          onClick={() => scrollToSection('join')}
+          onClick={() => window.location.href = '/'}
           className="hidden md:flex bg-slate-800 text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
         >
           Join the Movement
@@ -110,7 +110,7 @@ export default function Header() {
             </button>
           ))}
           <button 
-            onClick={() => scrollToSection('join')}
+            onClick={() => window.location.href = '/'}
             className="w-full mt-2 bg-slate-800 text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-slate-700 transition-colors"
           >
             Join the Movement
