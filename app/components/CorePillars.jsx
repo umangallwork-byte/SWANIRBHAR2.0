@@ -1,56 +1,47 @@
 export default function CorePillars() {
-  const gains = [
-    { title: "Students", description: "gain real-world skills" },
-    { title: "Startups", description: "gain talent and mentorship" },
-    { title: "Industry", description: "gains innovation" },
-    { title: "Institutions", description: "gain impact" }
+  const pillars = [
+    {
+      title: "University Incubation",
+      description: "Transform academic institutions into hubs of innovation with structured incubation programs.",
+    },
+    {
+      title: "Industry Participation",
+      description: "Direct involvement from thought leaders and corporations to shape the curriculum and outcomes.",
+    },
+    {
+      title: "Capital & Investment",
+      description: "Unlock vital funding pathways for startups, fueling sustainable growth and rapid scaling.",
+    },
+    {
+      title: "Early Learning",
+      description: "Cultivate entrepreneurial mindsets from a young age through comprehensive school programs.",
+    }
   ];
 
-  const partners = ["Universities", "Industry", "Startups", "Investors", "CSR Partners"];
-
   return (
-    <section className="w-full py-20 md:py-32 relative">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center relative z-10">
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-slate-800 text-center mb-6 tracking-tight">
-          Connecting Education to the Real Economy
+    <section className="w-full py-20 md:py-32">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
+        <h2 className="font-serif text-3xl md:text-5xl text-slate-800 text-center mb-16">
+          The Core Architecture
         </h2>
-        <p className="text-lg md:text-xl text-slate-500 font-sans mb-16 text-center max-w-2xl">
-          Swanirbhar builds a collaborative ecosystem where every stakeholder thrives.
-        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 w-full mb-20">
-          {gains.map((gain, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 w-full">
+          {pillars.map((pillar, idx) => (
             <div 
               key={idx} 
-              className="bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-transform duration-300 hover:-translate-y-2 group"
+              className="bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl h-full flex flex-col p-8 transition-transform duration-300 hover:-translate-y-2 group"
             >
-              <h3 className="font-serif text-2xl font-bold text-slate-800 mb-2">
-                {gain.title}
+              <h3 className="font-serif text-xl font-bold text-slate-800 mb-4">
+                {pillar.title}
               </h3>
-              <p className="font-sans text-slate-600 font-medium">
-                {gain.description}
+              <p className="font-sans text-slate-600 mb-8 leading-relaxed">
+                {pillar.description}
               </p>
+              <a href="#" className="mt-auto font-sans text-slate-800 font-medium inline-flex items-center gap-2 group-hover:gap-3 transition-all">
+                Explore <span>&rarr;</span>
+              </a>
             </div>
           ))}
-        </div>
-
-        <div className="w-full bg-slate-800 text-white rounded-[2.5rem] p-10 md:p-16 flex flex-col items-center text-center shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-slate-700/50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-slate-900/50 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-          
-          <h3 className="font-serif text-3xl md:text-4xl mb-12 relative z-10 font-light">
-            Our platform connects:
-          </h3>
-          <div className="flex flex-wrap justify-center gap-4 md:gap-6 relative z-10">
-            {partners.map((partner, idx) => (
-              <div key={idx} className="bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full text-lg md:text-xl font-medium tracking-wide">
-                {partner}
-              </div>
-            ))}
-          </div>
-          <p className="mt-12 font-sans text-xl md:text-2xl text-slate-300 font-bold tracking-wider uppercase relative z-10">
-            into one integrated pipeline.
-          </p>
         </div>
       </div>
     </section>

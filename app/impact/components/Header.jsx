@@ -26,9 +26,10 @@ export default function Header() {
   };
 
   const navLinks = [
-    { name: 'Journey', id: 'journey' },
-    { name: 'Architecture', id: 'architecture' },
+    { name: 'Solution', id: 'solution' },
     { name: 'Impact', id: 'impact' },
+    { name: 'Ecosystem', id: 'journey' },
+    { name: 'Partners', id: 'partners' },
     { name: 'FAQ', id: 'faq' },
   ];
 
@@ -46,10 +47,10 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
         {/* Brand */}
         <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={() => window.location.href = '/'}
           className="font-serif text-2xl font-bold text-slate-800 tracking-tight cursor-pointer flex items-center gap-1 group"
         >
-          Swanirbhar <span className="text-slate-400 font-light transition-colors group-hover:text-slate-600">2.0</span>
+          Swanirbhar <span className="text-slate-400 font-light transition-colors group-hover:text-slate-600">2.0</span> <span className="text-sm font-sans tracking-wide ml-2 bg-slate-200 px-2 py-0.5 rounded-md text-slate-500 hidden sm:block">IMPACT</span>
         </div>
 
         {/* Navigation - Desktop */}
@@ -67,10 +68,10 @@ export default function Header() {
 
         {/* CTA */}
         <button 
-          onClick={() => scrollToSection('hero')}
+          onClick={() => scrollToSection('join')}
           className="hidden md:flex bg-slate-800 text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
         >
-          Join Waitlist
+          Join the Movement
         </button>
 
         {/* Mobile Menu Toggle */}
@@ -110,10 +111,10 @@ export default function Header() {
             </button>
           ))}
           <button 
-            onClick={() => scrollToSection('hero')}
+            onClick={() => scrollToSection('join')}
             className="w-full mt-2 bg-slate-800 text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-slate-700 transition-colors"
           >
-            Join Waitlist
+            Join the Movement
           </button>
         </div>
       </motion.div>
