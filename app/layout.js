@@ -16,6 +16,8 @@ export const metadata = {
   description: "Bridging the gap between academic learning and industry readiness.",
 };
 
+import { Analytics } from "@vercel/analytics/next";
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -24,6 +26,7 @@ export default function RootLayout({ children }) {
         suppressHydrationWarning
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );
