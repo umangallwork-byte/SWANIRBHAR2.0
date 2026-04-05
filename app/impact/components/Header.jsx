@@ -39,7 +39,7 @@ export default function Header() {
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
         scrolled 
-          ? 'py-4 backdrop-blur-2xl bg-[#F7F7F2]/70 shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-white/40 shadow-[4px_4px_16px_#e3e3de,-4px_-4px_16px_#ffffff]' 
+          ? 'py-4 backdrop-blur-2xl bg-[#FFFFFF]/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border-b border-[#f1f5f9]' 
           : 'py-6 bg-transparent'
       }`}
     >
@@ -53,7 +53,7 @@ export default function Header() {
         </div>
 
         {/* Navigation - Desktop */}
-        <nav className="hidden md:flex items-center gap-8 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/60 shadow-[inset_2px_2px_4px_#e3e3de,inset_-2px_-2px_4px_#ffffff] px-8 py-3 rounded-full">
+        <nav className="hidden md:flex items-center gap-8 bg-white/80 backdrop-blur-md border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] px-8 py-3 rounded-full">
           {navLinks.map((item) => (
             <button 
               key={item.name} 
@@ -68,7 +68,7 @@ export default function Header() {
         {/* CTA */}
         <button 
           onClick={() => window.location.href = '/'}
-          className="hidden md:flex bg-slate-800 text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
+          className="hidden md:flex bg-[#6e66ff] text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-[#5d54f0] shadow-[0_8px_20px_rgba(110,102,255,0.25)] hover:shadow-[0_12px_25px_rgba(110,102,255,0.35)] hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
         >
           Join the Movement
         </button>
@@ -76,7 +76,7 @@ export default function Header() {
         {/* Mobile Menu Toggle */}
         <button 
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="md:hidden bg-[#F7F7F2] p-3 rounded-full shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] text-slate-700 active:scale-95 transition-transform"
+          className="md:hidden bg-white p-3 rounded-full border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-slate-700 active:scale-95 transition-transform"
         >
           {mobileMenuOpen ? (
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -97,7 +97,7 @@ export default function Header() {
       <motion.div 
         initial={false}
         animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-        className="md:hidden overflow-hidden bg-[#F7F7F2]"
+        className="md:hidden overflow-hidden bg-[#FFFFFF]"
       >
         <div className="px-4 py-6 flex flex-col gap-4 border-t border-slate-200/50 mt-4">
           {navLinks.map((item) => (
@@ -111,7 +111,7 @@ export default function Header() {
           ))}
           <button 
             onClick={() => window.location.href = '/'}
-            className="w-full mt-2 bg-slate-800 text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-slate-700 transition-colors"
+            className="w-full mt-2 bg-[#6e66ff] text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-[#5d54f0] shadow-[0_8px_20px_rgba(110,102,255,0.25)] transition-colors"
           >
             Join the Movement
           </button>

@@ -40,29 +40,76 @@ function Counter({ endValue, suffix }) {
   );
 }
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.2,
+    }
+  }
+};
+
+const metricVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.8 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+    }
+  }
+};
+
 export default function ImpactMetrics() {
   return (
-    <section className="w-full py-20 md:py-32 bg-[#F7F7F2]">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center">
+    <section className="w-full py-20 md:py-32 bg-white relative overflow-hidden">
+      {/* Animated background pulse */}
+      <motion.div
+        animate={{ 
+          scale: [1, 1.5, 1],
+          opacity: [0.03, 0.06, 0.03]
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-slate-900 rounded-full blur-[200px] pointer-events-none"
+      />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center relative z-10">
         <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
-          className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl p-12 md:p-16"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full bg-white/80 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#f1f5f9] rounded-[2rem] p-12 md:p-16"
         >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-slate-300">
+          <motion.div 
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center divide-y md:divide-y-0 md:divide-x divide-slate-300"
+          >
             {metrics.map((metric) => (
-              <div key={metric.id} className="flex flex-col items-center justify-center pt-8 md:pt-0 first:pt-0">
-                <h3 className="font-serif text-5xl md:text-7xl font-light text-slate-800 mb-4 tracking-tight">
+              <motion.div 
+                key={metric.id} 
+                variants={metricVariants}
+                className="flex flex-col items-center justify-center pt-8 md:pt-0 first:pt-0"
+              >
+                <motion.h3
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                  className="font-serif text-5xl md:text-7xl font-light text-slate-800 mb-4 tracking-tight cursor-default"
+                >
                   <Counter endValue={metric.endValue} suffix={metric.suffix} />
-                </h3>
+                </motion.h3>
                 <p className="font-sans text-slate-500 text-lg uppercase tracking-widest font-medium">
                   {metric.title}
                 </p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>

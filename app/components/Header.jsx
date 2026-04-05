@@ -30,10 +30,10 @@ export default function Header() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'Journey', id: 'journey' },
-    { name: 'Architecture', id: 'architecture' },
-    { name: 'Impact', id: 'impact' },
-    { name: 'FAQ', id: 'faq' },
+    { name: 'Mentors', href: '/mentors' },
+    { name: 'Incubation', href: '/incubation' },
+    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Impact', href: '/impact' },
   ];
 
   const handleNavLinkClick = (item) => {
@@ -49,32 +49,32 @@ export default function Header() {
     }
   };
 
+  const handleJoinClick = () => {
+    setMobileMenuOpen(false);
+    const isHomePage = window.location.pathname === '/';
+    if (isHomePage) {
+      scrollToSection('hero');
+    } else {
+      window.location.href = '/#hero';
+    }
+  };
+
   return (
     <>
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
+        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-500 ease-out ${
           scrolled 
-            ? 'py-4 backdrop-blur-2xl bg-[#F7F7F2]/70 shadow-[0_4px_30px_rgba(0,0,0,0.03)] border-b border-white/40 shadow-[4px_4px_16px_#e3e3de,-4px_-4px_16px_#ffffff]' 
+            ? 'py-4 backdrop-blur-2xl bg-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border-b border-[#f1f5f9]' 
             : 'py-6 bg-transparent'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
 
-          {/* Left: Hamburger Menu Trigger */}
+          {/* Left: Brand */}
           <div className="flex items-center gap-6">
-            <button
-              onClick={() => setIsMenuOpen(true)}
-              className="flex items-center gap-2 text-slate-800 hover:text-slate-600 font-medium transition-colors duration-200"
-              aria-label="Open menu"
-            >
-              <Menu className="w-5 h-5" />
-              <span className="text-sm tracking-wide hidden sm:inline">Menu</span>
-            </button>
-
-            {/* Brand */}
             <div 
               onClick={() => window.location.href = '/'}
               className="font-serif text-2xl font-bold text-slate-800 tracking-tight cursor-pointer flex items-center gap-1 group"
@@ -84,12 +84,12 @@ export default function Header() {
           </div>
 
           {/* Center: Navigation - Desktop */}
-          <nav className="hidden md:flex items-center gap-8 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/60 shadow-[inset_2px_2px_4px_#e3e3de,inset_-2px_-2px_4px_#ffffff] px-8 py-3 rounded-full">
+          <nav className="hidden lg:flex items-center gap-8 bg-white/80 backdrop-blur-md border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] px-8 py-3 rounded-full">
             {navLinks.map((item) => (
               <button 
                 key={item.name} 
                 onClick={() => handleNavLinkClick(item)}
-                className="text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-[0.15em]"
+                className="text-[11px] font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-[0.15em]"
               >
                 {item.name}
               </button>
@@ -99,8 +99,8 @@ export default function Header() {
           {/* Right: CTA + Mobile Toggle */}
           <div className="flex items-center gap-4">
             <button 
-              onClick={() => scrollToSection('hero')}
-              className="hidden md:flex bg-slate-800 text-white rounded-full px-7 py-3 text-sm font-medium tracking-wide hover:bg-slate-700 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 active:scale-95"
+              onClick={handleJoinClick}
+              className="hidden md:flex bg-slate-900 text-white px-7 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-all duration-300 active:scale-95"
             >
               Join Waitlist
             </button>
@@ -108,7 +108,7 @@ export default function Header() {
             {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden bg-[#F7F7F2] p-3 rounded-full shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] text-slate-700 active:scale-95 transition-transform"
+              className="md:hidden bg-white p-3 rounded-full border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-slate-700 active:scale-95 transition-transform"
             >
               {mobileMenuOpen ? (
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -130,7 +130,7 @@ export default function Header() {
         <motion.div 
           initial={false}
           animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-          className="md:hidden overflow-hidden bg-[#F7F7F2]"
+          className="md:hidden overflow-hidden bg-[#FFFFFF]"
         >
           <div className="px-4 py-6 flex flex-col gap-4 border-t border-slate-200/50 mt-4">
             {navLinks.map((item) => (
@@ -143,8 +143,8 @@ export default function Header() {
               </button>
             ))}
             <button 
-              onClick={() => scrollToSection('hero')}
-              className="w-full mt-2 bg-slate-800 text-white rounded-xl px-6 py-4 text-sm font-medium tracking-wide hover:bg-slate-700 transition-colors"
+              onClick={handleJoinClick}
+              className="w-full mt-2 bg-slate-900 text-white px-6 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-colors"
             >
               Join Waitlist
             </button>

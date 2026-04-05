@@ -75,16 +75,16 @@ export default function PortfolioDrawer({ isOpen, onClose }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 z-[70] h-full w-full max-w-md bg-[#FAFAF7] shadow-[-8px_0_30px_rgba(0,0,0,0.08)] border-l border-slate-200/60 flex flex-col overflow-hidden"
+            className="fixed top-0 right-0 z-[70] h-full w-full max-w-md bg-[#FFFFFF] shadow-[-8px_0_30px_rgba(0,0,0,0.08)] border-l border-slate-200/60 flex flex-col overflow-hidden"
           >
             {/* ===== Header ===== */}
-            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200/60 bg-[#FAFAF7]/80 backdrop-blur-md shrink-0">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200/60 bg-[#FFFFFF]/80 backdrop-blur-md shrink-0">
               <h2 className="font-serif text-2xl text-slate-800 tracking-tight">
                 Impact Map
               </h2>
               <button
                 onClick={onClose}
-                className="w-10 h-10 rounded-full bg-[#F7F7F2] shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] flex items-center justify-center text-slate-500 hover:text-slate-800 hover:shadow-[6px_6px_12px_#e3e3de,-6px_-6px_12px_#ffffff] active:scale-95 transition-all duration-200"
+                className="w-10 h-10 rounded-full bg-[#FFFFFF] shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] flex items-center justify-center text-slate-500 hover:text-slate-800 hover:shadow-[6px_6px_0px_#000000] active:scale-95 transition-all duration-200"
                 aria-label="Close drawer"
               >
                 <X className="w-5 h-5" />
@@ -99,7 +99,7 @@ export default function PortfolioDrawer({ isOpen, onClose }) {
                 <p className="font-sans text-[10px] text-slate-400 uppercase tracking-widest font-semibold mb-3 text-center">
                   Startup Presence Across India
                 </p>
-                <div className="bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[6px_6px_12px_#e3e3de,-6px_-6px_12px_#ffffff] rounded-2xl p-3">
+                <div className="bg-[#FFFFFF]/60 backdrop-blur-xl border-2 border-black shadow-[6px_6px_0px_#000000] rounded-2xl p-3">
                   <MinimalIndiaMap activeStates={activeStates} />
                 </div>
               </div>
@@ -134,7 +134,7 @@ export default function PortfolioDrawer({ isOpen, onClose }) {
                         {stateStartups.map((startup) => (
                           <div
                             key={startup.id}
-                            className="flex items-center gap-3 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[3px_3px_6px_#e3e3de,-3px_-3px_6px_#ffffff] rounded-xl px-4 py-3 hover:-translate-y-0.5 hover:shadow-[5px_5px_10px_#e3e3de,-5px_-5px_10px_#ffffff] transition-all duration-300"
+                            className="flex items-center gap-3 bg-[#FFFFFF]/60 backdrop-blur-xl border-2 border-black shadow-[3px_3px_6px_#e3e3de,-3px_-3px_6px_#ffffff] rounded-xl px-4 py-3 hover:-translate-y-0.5 hover:shadow-[5px_5px_10px_#e3e3de,-5px_-5px_10px_#ffffff] transition-all duration-300"
                           >
                             <div className="w-8 h-8 rounded-lg bg-slate-800 text-white flex items-center justify-center font-sans text-[10px] font-bold shrink-0">
                               {String(startup.id).padStart(2, '0')}
@@ -157,7 +157,7 @@ export default function PortfolioDrawer({ isOpen, onClose }) {
             </div>
 
             {/* ===== Footer ===== */}
-            <div className="px-6 py-4 border-t border-slate-200/60 bg-[#FAFAF7]/80 backdrop-blur-md shrink-0">
+            <div className="px-6 py-4 border-t border-slate-200/60 bg-[#FFFFFF]/80 backdrop-blur-md shrink-0">
               <button
                 onClick={onClose}
                 className="w-full bg-slate-800 text-white rounded-2xl px-6 py-3.5 font-medium text-sm tracking-wide hover:bg-slate-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98]"

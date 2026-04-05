@@ -33,7 +33,7 @@ export default function EcosystemJourney() {
               transition={{ duration: 0.5, delay: idx * 0.1 }}
               className="relative z-10 flex flex-col items-center group w-full px-6"
             >
-              <div className="w-full sm:w-80 md:w-96 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[6px_6px_12px_#e3e3de,-6px_-6px_12px_#ffffff] rounded-2xl py-5 px-6 text-center transition-all duration-300 group-hover:scale-105 group-hover:bg-slate-800 group-hover:text-white group-hover:border-slate-700 cursor-default">
+              <div className="w-full sm:w-80 md:w-96 bg-[#FFFFFF]/60 backdrop-blur-xl border-2 border-black shadow-[6px_6px_0px_#000000] rounded-2xl py-5 px-6 text-center transition-all duration-300 group-hover:scale-105 group-hover:bg-slate-800 group-hover:text-white group-hover:border-slate-700 cursor-default">
                 <span className="font-sans font-bold text-lg md:text-xl text-slate-700 group-hover:text-white transition-colors duration-300 tracking-wide">
                   {stage}
                 </span>

@@ -29,7 +29,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F7F7F2] font-sans selection:bg-slate-800 selection:text-white overflow-x-hidden pb-32">
+    <main className="min-h-screen bg-white font-sans selection:bg-slate-800 selection:text-white overflow-x-hidden max-w-[1440px] mx-auto border-x-2 border-black">
       <Header />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-32 md:pt-40">
@@ -52,7 +52,7 @@ export default function PortfolioPage() {
         </div>
 
         {/* ===== Top Section: Full Width Map ===== */}
-        <div className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-[2.5rem] p-6 md:p-10 mb-12">
+        <div className="w-full bg-white border-2 border-black shadow-[16px_16px_0px_#000000] rounded-[2.5rem] p-6 md:p-10 mb-12">
             <div className="flex items-center justify-between mb-8">
                 <div className="flex flex-col gap-1">
                     <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">
@@ -89,7 +89,7 @@ export default function PortfolioPage() {
             {currentStartups.map((startup) => (
               <div
                 key={startup.id}
-                className="group bg-white border border-slate-100 shadow-sm rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 hover:border-slate-200 transition-all duration-300 flex flex-col h-full"
+                className="group bg-white border-2 border-black shadow-[6px_6px_0px_#000000] rounded-2xl p-6 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col items-center text-center h-full"
               >
                 <div className="mb-4">
                   <h3 className="text-base font-bold text-slate-900 leading-snug group-hover:text-slate-800 transition-colors">
@@ -117,7 +117,7 @@ export default function PortfolioPage() {
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="flex items-center gap-2 px-6 py-3 bg-[#1e293b] text-white rounded-xl disabled:opacity-20 disabled:cursor-not-allowed hover:bg-slate-700 transition-all shadow-md active:scale-95 font-medium text-sm"
+                className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl disabled:opacity-20 disabled:cursor-not-allowed hover:bg-black transition-all shadow-md active:scale-95 font-medium text-sm"
               >
                 <ChevronLeft className="w-4 h-4" />
                 Previous
@@ -130,7 +130,7 @@ export default function PortfolioPage() {
                     onClick={() => handlePageChange(page)}
                     className={`min-w-[42px] h-10 rounded-lg text-sm font-bold transition-all duration-200 ${
                       currentPage === page
-                        ? 'bg-[#1e293b] text-white shadow-lg'
+                        ? 'bg-slate-900 text-white shadow-lg'
                         : 'bg-white text-slate-400 hover:text-slate-600 hover:bg-slate-50 border border-slate-200'
                     }`}
                   >
@@ -142,7 +142,7 @@ export default function PortfolioPage() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="flex items-center gap-2 px-6 py-3 bg-[#1e293b] text-white rounded-xl disabled:opacity-20 disabled:cursor-not-allowed hover:bg-slate-700 transition-all shadow-md active:scale-95 font-medium text-sm"
+                className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl disabled:opacity-20 disabled:cursor-not-allowed hover:bg-black transition-all shadow-md active:scale-95 font-medium text-sm"
               >
                 Next
                 <ChevronRight className="w-4 h-4" />

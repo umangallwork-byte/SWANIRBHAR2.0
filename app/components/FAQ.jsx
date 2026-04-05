@@ -27,6 +27,20 @@ const faqs = [
   }
 ];
 
+const faqItemVariants = {
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1]
+    }
+  })
+};
+
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -35,32 +49,58 @@ export default function FAQ() {
   };
 
   return (
-    <section className="w-full py-20 md:py-32 bg-[#F7F7F2]">
-      <div className="max-w-3xl mx-auto px-4 w-full flex flex-col items-center">
-        <h2 className="font-serif text-3xl md:text-5xl text-slate-800 text-center mb-16">
+    <section className="w-full py-20 md:py-32 bg-white relative overflow-hidden">
+      {/* Background dots */}
+      <div className="absolute inset-0 pointer-events-none opacity-[0.02]"
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, #000 1px, transparent 0)`,
+          backgroundSize: '32px 32px'
+        }}
+      />
+
+      <div className="max-w-3xl mx-auto px-4 w-full flex flex-col items-center relative z-10">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="font-serif text-3xl md:text-5xl text-slate-800 text-center mb-16"
+        >
           Frequently Asked Questions
-        </h2>
+        </motion.h2>
 
         <div className="w-full flex flex-col gap-6">
           {faqs.map((faq, index) => {
             const isOpen = openIndex === index;
 
             return (
-              <div 
-                key={index} 
-                className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[6px_6px_12px_#e3e3de,-6px_-6px_12px_#ffffff] rounded-2xl overflow-hidden transition-all duration-300"
+              <motion.div 
+                key={index}
+                custom={index}
+                variants={faqItemVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-30px" }}
+                whileHover={{ x: isOpen ? 0 : 6 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="w-full bg-white/80 backdrop-blur-sm border border-[#f1f5f9] shadow-[0_10px_30px_rgba(0,0,0,0.03)] rounded-[2rem] overflow-hidden"
+                style={{
+                  boxShadow: isOpen ? '0 20px 40px rgba(0,0,0,0.06)' : '0 10px 30px rgba(0,0,0,0.03)',
+                  transition: 'box-shadow 0.3s ease'
+                }}
               >
                 <button
                   onClick={() => toggleFAQ(index)}
                   className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none focus:ring-2 focus:ring-slate-300 rounded-2xl"
                 >
-                  <span className="font-serif text-xl sm:text-2xl text-slate-800 tracking-tight font-medium">
+                  <span className="font-serif text-xl sm:text-2xl text-slate-800 tracking-tight font-medium pr-4">
+                    <span className="text-slate-300 mr-3 font-sans text-sm">0{index + 1}</span>
                     {faq.question}
                   </span>
                   <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0 bg-white/50 rounded-full p-2 shadow-[inset_2px_2px_4px_#e3e3de,inset_-2px_-2px_4px_#ffffff]"
+                    transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                    className="flex-shrink-0 bg-slate-50 border-2 border-black/10 rounded-full p-2"
                   >
                     <ChevronDown className="w-6 h-6 text-slate-600" />
                   </motion.div>
@@ -72,19 +112,24 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div className="px-6 md:px-8 pb-6 md:pb-8 pt-2">
-                        <div className="w-full shadow-[inset_4px_4px_8px_#e3e3de,inset_-4px_-4px_8px_#ffffff] rounded-2xl p-6 bg-transparent">
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.15, duration: 0.4 }}
+                          className="w-full border border-[#f1f5f9] bg-[#eef2ff]/50 rounded-[1.5rem] p-6"
+                        >
                           <p className="font-sans text-slate-600 leading-relaxed text-lg">
                             {faq.answer}
                           </p>
-                        </div>
+                        </motion.div>
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             );
           })}
         </div>

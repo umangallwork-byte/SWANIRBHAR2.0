@@ -19,7 +19,7 @@ export default function MinimalIndiaMap() {
       {/* Floating Tooltip */}
       {tooltip && (
         <div
-          className="fixed z-[100] pointer-events-none px-3 py-1.5 bg-[#1e293b] text-white text-xs font-bold rounded-lg shadow-xl border border-white/10 flex items-center gap-2 whitespace-nowrap transition-opacity duration-200"
+          className="fixed z-[100] pointer-events-none px-3 py-1.5 bg-[#1e293b] text-white text-xs font-bold rounded-lg shadow-xl border-2 border-black flex items-center gap-2 whitespace-nowrap transition-opacity duration-200"
           style={{
             left: `${position.x}px`,
             top: `${position.y}px`,
@@ -40,15 +40,15 @@ export default function MinimalIndiaMap() {
       </div>
 
       {/* Map Container */}
-      <div className="w-full h-[500px] bg-white/40 backdrop-blur-sm rounded-[2rem] border border-slate-200/60 shadow-[inset_0_2px_10px_rgba(0,0,0,0.03)] overflow-hidden">
+      <div className="w-full h-[600px] bg-white rounded-[2rem] border border-slate-200/60 overflow-visible relative flex items-center justify-center">
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{
-            scale: 850,
-            center: [78.96, 23.59],
+            scale: 800,
+            center: [78.96, 21.0], // Lowered the center Y to bring North in view
           }}
-          width={400}
-          height={400}
+          width={800} // Increased base width for better resolution
+          height={800} // Increased base height
           style={{ width: '100%', height: '100%', overflow: 'visible' }}
         >
           <Geographies geography={GEO_URL}>
@@ -64,22 +64,22 @@ export default function MinimalIndiaMap() {
                     onMouseLeave={() => setTooltip('')}
                     style={{
                       default: {
-                        fill: '#f8fafc',
-                        stroke: '#1e293b',
-                        strokeWidth: 0.5,
+                        fill: '#fcfcfc',
+                        stroke: '#000000',
+                        strokeWidth: 0.8,
                         outline: 'none',
                         transition: 'all 250ms ease',
                       },
                       hover: {
                         fill: '#3b82f6',
-                        stroke: '#1e293b',
-                        strokeWidth: 0.8,
+                        stroke: '#000000',
+                        strokeWidth: 1.2,
                         outline: 'none',
                         cursor: 'pointer',
                       },
                       pressed: {
                         fill: '#2563eb',
-                        stroke: '#1e293b',
+                        stroke: '#000000',
                         outline: 'none',
                       },
                     }}

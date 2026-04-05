@@ -35,7 +35,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="w-full py-20 md:py-32 bg-[#F7F7F2]">
+    <section className="w-full py-20 md:py-32 bg-[#FFFFFF]">
       <div className="max-w-3xl mx-auto px-4 w-full flex flex-col items-center">
         <h2 className="font-serif text-3xl md:text-5xl text-slate-800 text-center mb-16">
           Frequently Asked Questions
@@ -48,7 +48,7 @@ export default function FAQ() {
             return (
               <div 
                 key={index} 
-                className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[6px_6px_12px_#e3e3de,-6px_-6px_12px_#ffffff] rounded-2xl overflow-hidden transition-all duration-300"
+                className="w-full bg-[#FFFFFF]/60 backdrop-blur-xl border-2 border-black shadow-[6px_6px_0px_#000000] rounded-2xl overflow-hidden transition-all duration-300"
               >
                 <button
                   onClick={() => toggleFAQ(index)}

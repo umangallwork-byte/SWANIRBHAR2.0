@@ -22,7 +22,7 @@ export default function CorePillars() {
           {gains.map((gain, idx) => (
             <div 
               key={idx} 
-              className="bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-transform duration-300 hover:-translate-y-2 group"
+              className="bg-[#FFFFFF]/60 backdrop-blur-xl border-2 border-black shadow-[8px_8px_0px_#000000] rounded-3xl p-8 flex flex-col justify-center items-center text-center transition-transform duration-300 hover:-translate-y-2 group"
             >
               <h3 className="font-serif text-2xl font-bold text-slate-800 mb-2">
                 {gain.title}
@@ -43,7 +43,7 @@ export default function CorePillars() {
           </h3>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 relative z-10">
             {partners.map((partner, idx) => (
-              <div key={idx} className="bg-white/10 backdrop-blur-sm border border-white/20 px-6 py-3 rounded-full text-lg md:text-xl font-medium tracking-wide">
+              <div key={idx} className="bg-white/10 backdrop-blur-sm border-2 border-black px-6 py-3 rounded-full text-lg md:text-xl font-medium tracking-wide">
                 {partner}
               </div>
             ))}

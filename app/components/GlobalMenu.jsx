@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, BarChart3 } from 'lucide-react';
+import { X, MapPin, BarChart3, GraduationCap, Rocket } from 'lucide-react';
 
 export default function GlobalMenu({ isOpen, onClose }) {
   // Lock body scroll
@@ -23,6 +23,18 @@ export default function GlobalMenu({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   const menuLinks = [
+    {
+      name: 'National Mentors',
+      href: '/mentors',
+      icon: <GraduationCap className="w-5 h-5" />,
+      description: 'Connect with 300+ expert entrepreneurs',
+    },
+    {
+      name: 'Incubation Centers',
+      href: '/incubation',
+      icon: <Rocket className="w-5 h-5" />,
+      description: 'Discover 500+ ecosystem enablers',
+    },
     {
       name: 'Portfolio Map',
       href: '/portfolio',

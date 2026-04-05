@@ -1,21 +1,107 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabaseClient';
+
+// Floating particle component
+function FloatingParticle({ delay }) {
+  const [mounted, setMounted] = useState(false);
+  const [props, setProps] = useState(null);
+
+  useEffect(() => {
+    setProps({
+      duration: 8 + Math.random() * 8,
+      x: -50 + Math.random() * 100,
+      y: -30 + Math.random() * 60,
+      size: 4 + Math.random() * 8,
+      left: `${Math.random() * 100}%`,
+      top: `${Math.random() * 100}%`,
+    });
+    setMounted(true);
+  }, []);
+
+  if (!mounted || !props) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{
+        opacity: [0, 0.6, 0],
+        scale: [0, 1, 0.5],
+        x: [0, props.x, props.x * 1.5],
+        y: [0, props.y, props.y * 2],
+      }}
+      transition={{
+        duration: props.duration,
+        delay: delay,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }}
+      className="absolute rounded-full"
+      style={{
+        width: props.size,
+        height: props.size,
+        background: 'radial-gradient(circle, rgba(15,23,42,0.08) 0%, transparent 70%)',
+        left: props.left,
+        top: props.top,
+      }}
+    />
+  );
+}
+
+const communityLogos = [
+  { name: "Goldman Sachs", logo: "/community members/Goldman_Sachs_logo.PNG" },
+  { name: "IIIT Bhubaneswar", logo: "/community members/IIIT_Bhubaneswar_Logo.PNG" },
+  { name: "IISER Pune", logo: "/community members/IISER_Pune_Logo.PNG" },
+  { name: "IISc", logo: "/community members/IISc-logo.PNG" },
+  { name: "Microsoft", logo: "/community members/Microsoft_njgxlo_3da5200b24.PNG" },
+  { name: "SIU Deemed University", logo: "/community members/SIUDeemedUniversity151.PNG" },
+  { name: "Amazon", logo: "/community members/amazon-logo-amazon-logo-white-background-vector-format-avaliable-124289859.PNG" },
+  { name: "Knowledge Center", logo: "/community members/1695036214_s_knowledge_center_logo_img_28_1695036210100_1.JPG" },
+  { name: "Manipal University", logo: "/community members/manipalinternationaluniversity_logo.PNG" },
+  { name: "SVIT Vasad", logo: "/community members/sardar_vallabhbhai_patel_institute_of_tech_vasad_041_logo.PNG" },
+  { name: "VIT", logo: "/community members/vellore-institute-of-technology-vit-logo-vector-2022.PNG" },
+];
+
+
 
 export default function HeroSection() {
   const [cursorBlink, setCursorBlink] = useState(true);
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('');
-  const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+  const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sectionRef = useRef(null);
+
+  // Parallax scroll effect
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+  const yGrid = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const yBlob1 = useTransform(scrollYProgress, [0, 1], [0, -150]);
+  const yBlob2 = useTransform(scrollYProgress, [0, 1], [0, -80]);
+  const yContent = useTransform(scrollYProgress, [0, 1], [0, 50]);
+  const opacityFade = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCursorBlink((prev) => !prev);
     }, 500);
     return () => clearInterval(interval);
+  }, []);
+
+  // Mouse parallax for background
+  useEffect(() => {
+    const handleMouse = (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 2;
+      const y = (e.clientY / window.innerHeight - 0.5) * 2;
+      setMousePosition({ x, y });
+    };
+    window.addEventListener('mousemove', handleMouse);
+    return () => window.removeEventListener('mousemove', handleMouse);
   }, []);
 
   const handleSubmit = async (e) => {
@@ -34,7 +120,7 @@ export default function HeroSection() {
         .insert([{ email, user_type: userType }]);
 
       if (error) {
-        if (error.code === '23505') { // Postgres unique violation
+        if (error.code === '23505') {
           setStatus('error');
           setErrorMessage('This email is already on the priority list.');
         } else {
@@ -50,81 +136,156 @@ export default function HeroSection() {
     }
   };
 
+  // Staggered text animation
+  const titleWords = ["Swanirbhar", "2.0"];
+  const subtitleWords = ["The", "National", "Ecosystem"];
+
   return (
-    <section className="w-full py-20 md:py-32 min-h-[85vh] flex flex-col justify-center">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center justify-center text-center w-full">
-        {/* Launching Soon Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8 inline-flex items-center gap-2 bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[4px_4px_8px_#e3e3de,-4px_-4px_8px_#ffffff] rounded-full px-5 py-2"
+    <section ref={sectionRef} className="relative w-full pt-32 pb-20 md:pt-48 md:pb-32 min-h-[100svh] flex flex-col justify-center overflow-hidden bg-white">
+      {/* Postopus soft background blobs & Animated Clouds */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-[#dbeafe] rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob"></div>
+        <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-[#eff6ff] rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#eef2ff] rounded-full mix-blend-multiply filter blur-[100px] opacity-70 animate-blob animation-delay-4000"></div>
+
+        {/* Animated Background Cloud Images */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            initial={{ x: "-40vw", opacity: 0 }}
+            animate={{ x: "120vw", opacity: [0, 0.6, 0.6, 0] }}
+            transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+            className="absolute top-[10%] w-[500px] md:w-[800px] pointer-events-none mix-blend-screen"
+          >
+            <img src="/cloud_1.png" alt="Cloud 1" className="w-full h-auto opacity-40 blur-[2px]" />
+          </motion.div>
+
+          <motion.div
+            initial={{ x: "-10vw", opacity: 0 }}
+            animate={{ x: "110vw", opacity: [0, 0.7, 0.7, 0] }}
+            transition={{ duration: 160, repeat: Infinity, ease: "linear", delay: 15 }}
+            className="absolute top-[35%] w-[400px] md:w-[600px] pointer-events-none mix-blend-screen"
+          >
+            <img src="/cloud_2.png" alt="Cloud 2" className="w-full h-auto opacity-30 blur-[4px]" />
+          </motion.div>
+
+          <motion.div
+            initial={{ x: "-30vw", opacity: 0 }}
+            animate={{ x: "105vw", opacity: [0, 0.4, 0.4, 0] }}
+            transition={{ duration: 100, repeat: Infinity, ease: "linear", delay: 45 }}
+            className="absolute top-[65%] w-[350px] md:w-[500px] pointer-events-none mix-blend-screen"
+          >
+            <img src="/cloud_1.png" alt="Cloud 3" className="w-full h-auto opacity-20 blur-[1px] transform scale-x-[-1]" />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center justify-center text-center w-full">
+        <motion.h1
+          className="font-serif text-6xl md:text-8xl lg:text-9xl leading-tight text-slate-900 tracking-tight font-black"
         >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-          <span className="font-sans text-xs md:text-sm font-bold uppercase tracking-widest text-slate-600">Launching Soon</span>
+          {titleWords.map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className={`inline-block mr-4 md:mr-8 last:mr-0 ${word === '2.0' ? 'italic text-slate-400' : ''}`}
+            >
+              {word}
+            </motion.span>
+          ))}
+        </motion.h1>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.3 }}
+          className="mt-6 flex flex-wrap justify-center gap-x-4 md:gap-x-6 text-xl md:text-2xl text-slate-500 font-sans font-bold uppercase tracking-[0.3em]"
+        >
+          {subtitleWords.map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, filter: "blur(10px)" }}
+              animate={{ opacity: 1, filter: "blur(0px)" }}
+              transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
+            >
+              {word}
+            </motion.span>
+          ))}
         </motion.div>
 
-        {/* Antigravity Inspired Header */}
-        <div className="mb-12 flex flex-col items-center">
-          <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl leading-tight text-slate-800 tracking-tight flex items-center justify-center flex-wrap gap-2">
-            Swanirbhar 2.0{" "}
-            <span className="text-slate-400 font-light mx-2 hidden md:inline-block">/</span>{" "}
-            <span className="flex items-center text-center">
-              The National Ecosystem
-              <span
-                className={`inline-block w-[4px] md:w-[6px] h-[0.9em] bg-slate-800 ml-1 md:ml-2 transition-opacity duration-100 ${
-                  cursorBlink ? 'opacity-100' : 'opacity-0'
-                }`}
-              />
-            </span>
-          </h1>
-          <p className="mt-8 text-lg md:text-xl text-slate-600 max-w-2xl font-sans">
-            Bridging the gap between academic learning and industry readiness.
-          </p>
-        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+          animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="mt-10 mb-12 text-base md:text-lg text-slate-400 max-w-xl font-sans"
+        >
+          Bridging the gap between academic learning and industry readiness.
+        </motion.p>
 
-        {/* The Glass-Neumorphic Form / Success State */}
+        {/* The Premium Form / Success State */}
         <div className="w-full max-w-xl">
           <AnimatePresence mode="wait">
             {status === 'success' ? (
               <motion.div
                 key="success-message"
-                initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.95, y: -10 }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl p-10 md:p-14 flex flex-col items-center justify-center text-center"
+                initial={{ opacity: 0, scale: 0.8, y: 30, rotateX: -15 }}
+                animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                className="w-full bg-white/80 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#f1f5f9] rounded-[2rem] p-10 md:p-14 flex flex-col items-center justify-center text-center"
               >
-                <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6 shadow-[inset_4px_4px_8px_rgba(34,197,94,0.1),inset_-4px_-4px_8px_rgba(255,255,255,0.8)]">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+                  className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6"
+                >
                   <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    <motion.path
+                      initial={{ pathLength: 0 }}
+                      animate={{ pathLength: 1 }}
+                      transition={{ delay: 0.5, duration: 0.6 }}
+                      strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"
+                    />
                   </svg>
-                </div>
-                <h3 className="text-2xl font-serif text-slate-800 mb-4 tracking-tight">Priority Access Secured.</h3>
-                <p className="text-slate-600 font-sans leading-relaxed">
+                </motion.div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="text-2xl font-serif text-slate-900 mb-4 tracking-tight"
+                >Priority Access Secured.</motion.h3>
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.8 }}
+                  className="text-slate-500 font-sans leading-relaxed"
+                >
                   Welcome to the architecture of India's innovation economy. You will be notified when Phase 1 Cohort allocation begins.
-                </p>
+                </motion.p>
               </motion.div>
             ) : (
               <motion.form
                 key="waitlist-form"
                 onSubmit={handleSubmit}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="w-full bg-[#F7F7F2]/60 backdrop-blur-xl border border-white/80 shadow-[8px_8px_16px_#e3e3de,-8px_-8px_16px_#ffffff] rounded-3xl p-8 md:p-10 flex flex-col gap-8 items-center relative z-10"
+                transition={{ duration: 1, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full bg-white/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#f1f5f9] rounded-[2rem] p-8 md:p-10 flex flex-col gap-8 items-center relative z-10"
               >
                 <div className="w-full flex flex-col gap-6">
                   <div className="flex flex-col gap-2 text-left">
-                    <label className="text-sm font-medium text-slate-500 uppercase tracking-wider pl-4">I am a...</label>
+                    <label className="text-sm font-medium text-slate-400 uppercase tracking-wider pl-4">I am a...</label>
                     <div className="relative">
                       <select
                         value={userType}
                         onChange={(e) => setUserType(e.target.value)}
                         disabled={status === 'loading'}
                         required
-                        className="w-full appearance-none bg-transparent shadow-[inset_4px_4px_8px_#e3e3de,inset_-4px_-4px_8px_#ffffff] rounded-2xl px-6 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-slate-400/50 transition-all font-sans cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="w-full appearance-none bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-slate-400/20 focus:bg-white transition-all font-sans cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         <option value="" disabled hidden>Select Role...</option>
                         <option value="student">Student / Learner</option>
@@ -141,7 +302,7 @@ export default function HeroSection() {
                   </div>
 
                   <div className="flex flex-col gap-2 text-left">
-                    <label className="text-sm font-medium text-slate-500 uppercase tracking-wider pl-4">Email Address</label>
+                    <label className="text-sm font-medium text-slate-400 uppercase tracking-wider pl-4">Email Address</label>
                     <input
                       type="email"
                       value={email}
@@ -149,12 +310,12 @@ export default function HeroSection() {
                       disabled={status === 'loading'}
                       required
                       placeholder="hello@example.com"
-                      className={`w-full bg-transparent shadow-[inset_4px_4px_8px_#e3e3de,inset_-4px_-4px_8px_#ffffff] rounded-2xl px-6 py-4 text-slate-800 placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-slate-400/50 transition-all font-sans disabled:opacity-50 disabled:cursor-not-allowed ${status === 'error' ? 'ring-2 ring-red-400/50 bg-red-50/10' : ''}`}
+                      className={`w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-300 outline-none focus:ring-2 focus:ring-slate-400/20 focus:bg-white transition-all font-sans disabled:opacity-50 disabled:cursor-not-allowed ${status === 'error' ? 'ring-2 ring-red-400/20 bg-red-50/10 border-red-200' : ''}`}
                     />
                     {status === 'error' && (
                       <motion.p
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
+                        initial={{ opacity: 0, height: 0, x: -10 }}
+                        animate={{ opacity: 1, height: 'auto', x: 0 }}
                         className="text-xs text-red-500 pl-4 mt-1 font-medium"
                       >
                         {errorMessage}
@@ -162,36 +323,110 @@ export default function HeroSection() {
                     )}
                   </div>
 
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="mt-4 w-full bg-slate-800 text-white rounded-2xl px-8 py-4 font-medium tracking-wide hover:bg-slate-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] outline-none flex items-center justify-center gap-3 disabled:opacity-80 disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:active:scale-100 disabled:cursor-not-allowed"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="mt-4 w-full bg-slate-900 text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-all duration-300 outline-none flex items-center justify-center gap-3 disabled:opacity-80 disabled:cursor-not-allowed"
                   >
+
                     {status === 'loading' ? (
                       <>
                         <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
                           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                         </svg>
-                        Encrypting & Securing...
+                        Securing Spot...
                       </>
                     ) : (
                       <>
-                        Join Waitlist
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        Join Priority List
+                        <motion.svg
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                          width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                        >
                           <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
+                        </motion.svg>
                       </>
                     )}
-                  </button>
-                  <p className="text-xs md:text-sm text-slate-500 text-center font-medium opacity-80 mt-2">
-                    Currently allocating Phase 1 Cohort. 14,203 applications pending review.
-                  </p>
+                  </motion.button>
+                  <motion.p
+                    animate={{ opacity: [0.5, 0.8, 0.5] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className="text-xs md:text-sm text-slate-400 text-center font-medium mt-2"
+                  >
+                    Phase 1 allocation in progress. 14,203 spots reserved.
+                  </motion.p>
                 </div>
               </motion.form>
             )}
           </AnimatePresence>
         </div>
+
+        {/* --- ALL STARTUPS INFINITE MARQUEE --- */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="w-full mt-32 relative overflow-hidden"
+        >
+          {/* Section Header */}
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Community Members</span>
+            </h2>
+          </div>
+
+          {/* Grid Layout inspired by Reference Image */}
+          <div className="w-full relative z-10 py-16">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-16 gap-x-8 items-center justify-items-center">
+              {communityLogos.map((member, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.05, duration: 0.5 }}
+                  className="w-full flex items-center justify-center p-4 h-24 hover:scale-105 transition-transform duration-300"
+                >
+                  <img
+                    src={member.logo}
+                    alt={member.name}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="text-center mt-8">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em]">
+              Trusted by leading global institutions & corporations
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Animated scroll hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 1 }}
+          className="mt-12 hidden md:flex flex-col items-center gap-2"
+        >
+          <span className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-bold">Scroll to explore</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 5v14M5 12l7 7 7-7" />
+            </svg>
+          </motion.div>
+        </motion.div>
+
       </div>
     </section>
   );
