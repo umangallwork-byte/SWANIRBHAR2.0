@@ -1,7 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
 const startupLogos = [
   { name: "Education Logo", logo: "/Startups/Black and Bright Yellow Modern Education Logo.PNG" },
   { name: "Tuition Logo", logo: "/Startups/Black and White Modern Tuition Logo.PNG" },
@@ -20,6 +18,9 @@ const startupLogos = [
 ];
 
 export default function StartupMarquee() {
+  // Use a doubled array (mathematically perfect with translateX(-50%))
+  const logosRow = [...startupLogos, ...startupLogos];
+
   return (
     <section className="w-full py-24 bg-white overflow-hidden relative">
       {/* Background blobs for depth */}
@@ -27,38 +28,62 @@ export default function StartupMarquee() {
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-50 rounded-full blur-[100px] opacity-40 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">High-Impact Startups</span>
-          </h2>
-          <p className="mt-4 text-slate-500 font-sans text-sm md:text-base max-w-2xl mx-auto">
-            Nurtured within the Swanirbhar ecosystem, these ventures are redefining the future of Indian industry.
-          </p>
-        </div>
+        
+        {/* Startups Section */}
+        <div className="mb-12">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
+              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">High-Impact Startups</span>
+            </h2>
+            <p className="mt-4 text-slate-500 font-sans text-sm md:text-base max-w-2xl mx-auto">
+              Nurtured within the Swanirbhar ecosystem, these ventures are redefining the future of Indian industry.
+            </p>
+          </div>
 
-        {/* The Grid inspired by Reference */}
-        <div className="w-full relative z-10 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-16 gap-x-8 items-center justify-items-center">
-            {startupLogos.map((startup, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.05, duration: 0.5 }}
-                className="w-full flex items-center justify-center h-20 group hover:scale-105 transition-transform duration-300"
+          <div className="w-full relative py-8 overflow-hidden">
+            {/* Fade Edge Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+            
+            <div className="flex w-full group overflow-hidden">
+              <div 
+                className="animate-scroll-marquee flex items-center gap-20 pr-20 will-change-transform"
               >
-                <img 
-                  src={startup.logo} 
-                  alt={startup.name}
-                  className="max-h-full max-w-full object-contain" 
-                />
-              </motion.div>
-            ))}
+                {startupLogos.map((startup, idx) => (
+                  <div 
+                    key={`startup-1-${idx}`} 
+                    className="flex-shrink-0 flex items-center justify-center w-[160px] h-24 hover:scale-110 transition-transform duration-300"
+                  >
+                    <img 
+                      src={startup.logo} 
+                      alt={startup.name} 
+                      className="max-h-full max-w-full object-contain transition-all duration-300 cursor-pointer" 
+                    />
+                  </div>
+                ))}
+              </div>
+              <div 
+                className="animate-scroll-marquee flex items-center gap-20 pr-20 will-change-transform"
+                aria-hidden="true"
+              >
+                {startupLogos.map((startup, idx) => (
+                  <div 
+                    key={`startup-2-${idx}`} 
+                    className="flex-shrink-0 flex items-center justify-center w-[160px] h-24 hover:scale-110 transition-transform duration-300"
+                  >
+                    <img 
+                      src={startup.logo} 
+                      alt={startup.name} 
+                      className="max-h-full max-w-full object-contain transition-all duration-300 cursor-pointer" 
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="text-center mt-12">
+        <div className="text-center mt-20">
           <p className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.4em]">
             Scaling Innovation across 20+ sectors
           </p>

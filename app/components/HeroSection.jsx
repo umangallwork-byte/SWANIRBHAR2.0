@@ -365,13 +365,13 @@ export default function HeroSection() {
           </AnimatePresence>
         </div>
 
-        {/* --- ALL STARTUPS INFINITE MARQUEE --- */}
+        {/* --- COMMUNITY MEMBERS INFINITE MARQUEE --- */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="w-full mt-32 relative overflow-hidden"
+          transition={{ duration: 0.8 }}
+          className="w-full mt-32 relative"
         >
           {/* Section Header */}
           <div className="text-center mb-12">
@@ -380,25 +380,33 @@ export default function HeroSection() {
             </h2>
           </div>
 
-          {/* Grid Layout inspired by Reference Image */}
-          <div className="w-full relative z-10 py-16">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-y-16 gap-x-8 items-center justify-items-center">
-              {communityLogos.map((member, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.05, duration: 0.5 }}
-                  className="w-full flex items-center justify-center p-4 h-24 hover:scale-105 transition-transform duration-300"
-                >
-                  <img
-                    src={member.logo}
-                    alt={member.name}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </motion.div>
-              ))}
+          <div className="w-full relative py-8 overflow-hidden">
+             {/* Fade Edge Masks */}
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-20 pointer-events-none" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-20 pointer-events-none" />
+            
+            <div className="flex w-full group overflow-hidden">
+              <div 
+                className="animate-scroll-marquee flex items-center gap-20 pr-20 will-change-transform"
+                style={{ animationDuration: '40s' }}
+              >
+                {communityLogos.map((member, idx) => (
+                  <div key={`community-1-${idx}`} className="flex-shrink-0 flex items-center justify-center w-[160px] h-24 hover:scale-110 transition-transform duration-300">
+                    <img src={member.logo} alt={member.name} className="max-h-full max-w-full object-contain cursor-pointer" />
+                  </div>
+                ))}
+              </div>
+              <div 
+                className="animate-scroll-marquee flex items-center gap-20 pr-20 will-change-transform"
+                style={{ animationDuration: '40s' }}
+                aria-hidden="true"
+              >
+                {communityLogos.map((member, idx) => (
+                  <div key={`community-2-${idx}`} className="flex-shrink-0 flex items-center justify-center w-[160px] h-24 hover:scale-110 transition-transform duration-300">
+                    <img src={member.logo} alt={member.name} className="max-h-full max-w-full object-contain cursor-pointer" />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

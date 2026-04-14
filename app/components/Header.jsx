@@ -77,9 +77,9 @@ export default function Header() {
           <div className="flex items-center gap-6">
             <div 
               onClick={() => window.location.href = '/'}
-              className="font-serif text-2xl font-bold text-slate-800 tracking-tight cursor-pointer flex items-center gap-1 group"
+              className="flex items-center gap-1 cursor-pointer group"
             >
-              Swanirbhar <span className="text-slate-400 font-light transition-colors group-hover:text-slate-600">2.0</span>
+              <img src="/swanirbhar%20logo/logo-removebg-preview.png" alt="Swanirbhar Logo" className="h-8 w-auto" />
             </div>
           </div>
 

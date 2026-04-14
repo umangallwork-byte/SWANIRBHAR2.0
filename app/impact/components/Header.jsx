@@ -49,7 +49,7 @@ export default function Header() {
           onClick={() => window.location.href = '/'}
           className="font-serif text-2xl font-bold text-slate-800 tracking-tight cursor-pointer flex items-center gap-1 group"
         >
-          Swanirbhar <span className="text-sm font-sans tracking-wide ml-2 bg-slate-200 px-2 py-0.5 rounded-md text-slate-500 hidden sm:block">IMPACT</span>
+          <img src="/swanirbhar%20logo/logo-removebg-preview.png" alt="Swanirbhar Logo" className="h-8 w-auto" />
         </div>
 
         {/* Navigation - Desktop */}
