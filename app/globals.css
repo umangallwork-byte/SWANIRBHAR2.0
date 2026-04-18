@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
-@theme inline {
+/* Tailwind v4 Theme Configuration */
+@theme {
   --color-background: #E0E5EC;
   --color-foreground: #3D4852;
   --color-muted: #6B7280;
@@ -65,9 +66,11 @@ body {
               -5px -5px 10px rgba(255, 255, 255, 0.5);
 }
 
-/* Transitions */
+/* Transitions - Using Standard CSS to avoid IDE warnings */
 .nm-transition {
-  @apply transition-all duration-300 ease-out;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
 }
 
 /* --- DECORATIONS --- */
@@ -89,4 +92,4 @@ body {
   display: flex;
   flex-shrink: 0;
   animation: scrollMarquee 40s linear infinite;
-}
+}
