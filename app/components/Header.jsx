@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Menu } from 'lucide-react';
 import GlobalMenu from './GlobalMenu';
 
 export default function Header() {
@@ -18,6 +18,16 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const scrollToSection = (id) => {
+    setMobileMenuOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 100;
+      const top = element.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  };
+
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'Mentors', href: '/mentors' },
@@ -27,7 +37,26 @@ export default function Header() {
   ];
 
   const handleNavLinkClick = (item) => {
-    if (item.href) window.location.href = item.href;
+    if (item.href) {
+      window.location.href = item.href;
+    } else {
+      const isHomePage = window.location.pathname === '/';
+      if (isHomePage) {
+        scrollToSection(item.id);
+      } else {
+        window.location.href = `/#${item.id}`;
+      }
+    }
+  };
+
+  const handleJoinClick = () => {
+    setMobileMenuOpen(false);
+    const isHomePage = window.location.pathname === '/';
+    if (isHomePage) {
+      scrollToSection('hero');
+    } else {
+      window.location.href = '/#hero';
+    }
   };
 
   return (
@@ -35,84 +64,95 @@ export default function Header() {
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 nm-transition ${
-          scrolled ? 'py-4' : 'py-8'
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-500 ease-out ${
+          scrolled 
+            ? 'py-4 backdrop-blur-2xl bg-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border-b border-[#f1f5f9]' 
+            : 'py-6 bg-transparent'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          
-          {/* Brand - Inset Well for Logo */}
-          <div 
-            onClick={() => window.location.href = '/'}
-            className="w-16 h-16 rounded-2xl nm-inset-deep flex items-center justify-center cursor-pointer group hover:scale-105 nm-transition"
-          >
-            <img 
-              src="/swanirbhar%20logo/logo-removebg-preview.png" 
-              alt="Swanirbhar" 
-              className="h-10 w-auto nm-transition group-hover:rotate-12" 
-            />
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
+
+          {/* Left: Brand */}
+          <div className="flex items-center gap-6">
+            <div 
+              onClick={() => window.location.href = '/'}
+              className="flex items-center gap-1 cursor-pointer group"
+            >
+              <img src="/swanirbhar%20logo/logo-removebg-preview.png" alt="Swanirbhar Logo" className="h-8 w-auto" />
+            </div>
           </div>
 
-          {/* Navigation - Floating Flat Pill */}
-          <nav className="hidden md:flex items-center gap-2 p-2 rounded-full nm-flat">
+          {/* Center: Navigation - Desktop */}
+          <nav className="hidden lg:flex items-center gap-8 bg-white/80 backdrop-blur-md border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] px-8 py-3 rounded-full">
             {navLinks.map((item) => (
               <button 
                 key={item.name} 
                 onClick={() => handleNavLinkClick(item)}
-                className="px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest text-muted hover:text-foreground hover:nm-inset nm-transition"
+                className="text-[11px] font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-[0.15em]"
               >
                 {item.name}
               </button>
             ))}
           </nav>
 
-          {/* CTA - Extruded Accent Button */}
+          {/* Right: CTA + Mobile Toggle */}
           <div className="flex items-center gap-4">
             <button 
-              className="hidden lg:flex px-8 py-4 rounded-2xl bg-accent text-white text-xs font-bold uppercase tracking-widest shadow-[6px_6px_12px_rgba(108,99,255,0.3),-6px_-6px_12px_rgba(255,255,255,0.2)] hover:shadow-none active:nm-inset transition-all"
+              onClick={handleJoinClick}
+              className="hidden md:flex bg-slate-900 text-white px-7 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-all duration-300 active:scale-95"
             >
-              Portal Access
+              Join Waitlist
             </button>
 
-            {/* Mobile Toggle - Extruded Round Button */}
+            {/* Mobile Menu Toggle */}
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden w-12 h-12 rounded-2xl nm-flat flex items-center justify-center active:nm-inset text-foreground nm-transition"
+              className="md:hidden bg-white p-3 rounded-full border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-slate-700 active:scale-95 transition-transform"
             >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              {mobileMenuOpen ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="12" x2="21" y2="12"></line>
+                  <line x1="3" y1="6" x2="21" y2="6"></line>
+                  <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile Menu Dropdown */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.div 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="absolute top-full left-6 right-6 mt-4 p-6 rounded-[32px] nm-flat md:hidden"
+        <motion.div 
+          initial={false}
+          animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
+          className="md:hidden overflow-hidden bg-[#FFFFFF]"
+        >
+          <div className="px-4 py-6 flex flex-col gap-4 border-t border-slate-200/50 mt-4">
+            {navLinks.map((item) => (
+              <button 
+                key={item.name} 
+                onClick={() => handleNavLinkClick(item)}
+                className="w-full text-left py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors uppercase tracking-[0.1em]"
+              >
+                {item.name}
+              </button>
+            ))}
+            <button 
+              onClick={handleJoinClick}
+              className="w-full mt-2 bg-slate-900 text-white px-6 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-colors"
             >
-              <div className="flex flex-col gap-4">
-                {navLinks.map((item) => (
-                  <button 
-                    key={item.name} 
-                    onClick={() => handleNavLinkClick(item)}
-                    className="w-full text-left p-4 rounded-2xl text-sm font-bold text-muted hover:nm-inset nm-transition"
-                  >
-                    {item.name}
-                  </button>
-                ))}
-                <button className="w-full mt-2 p-5 rounded-2xl bg-accent text-white text-xs font-bold uppercase tracking-widest">
-                  Join Waitlist
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              Join Waitlist
+            </button>
+          </div>
+        </motion.div>
       </motion.header>
 
+      {/* Global Slide-Out Menu */}
       <GlobalMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>
   );
