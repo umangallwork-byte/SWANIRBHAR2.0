@@ -11,7 +11,7 @@ import ScrollProgressBar from './components/ScrollProgressBar';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white font-sans selection:bg-slate-800 selection:text-white overflow-x-hidden pt-20 max-w-[1440px] mx-auto">
+    <main className="min-h-screen bg-black font-sans selection:bg-cyan-500 selection:text-black overflow-x-hidden pt-0 max-w-[1440px] mx-auto">
       <ScrollProgressBar />
       <Header />
       <div id="hero"><HeroSection /></div>

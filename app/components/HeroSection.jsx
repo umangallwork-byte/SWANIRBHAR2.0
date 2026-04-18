@@ -5,52 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabaseClient';
 import { NeuralNoise } from '../../components/ui/neural-noise';
 
-// Floating particle component
-function FloatingParticle({ delay }) {
-  const [mounted, setMounted] = useState(false);
-  const [props, setProps] = useState(null);
-
-  useEffect(() => {
-    setProps({
-      duration: 8 + Math.random() * 8,
-      x: -50 + Math.random() * 100,
-      y: -30 + Math.random() * 60,
-      size: 4 + Math.random() * 8,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-    });
-    setMounted(true);
-  }, []);
-
-  if (!mounted || !props) return null;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{
-        opacity: [0, 0.6, 0],
-        scale: [0, 1, 0.5],
-        x: [0, props.x, props.x * 1.5],
-        y: [0, props.y, props.y * 2],
-      }}
-      transition={{
-        duration: props.duration,
-        delay: delay,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-      className="absolute rounded-full"
-      style={{
-        width: props.size,
-        height: props.size,
-        background: 'radial-gradient(circle, rgba(15,23,42,0.08) 0%, transparent 70%)',
-        left: props.left,
-        top: props.top,
-      }}
-    />
-  );
-}
-
 const communityLogos = [
   { name: "Goldman Sachs", logo: "/community members/Goldman_Sachs_logo.PNG" },
   { name: "IIIT Bhubaneswar", logo: "/community members/IIIT_Bhubaneswar_Logo.PNG" },
@@ -66,20 +20,12 @@ const communityLogos = [
 ];
 
 export default function HeroSection() {
-  const [cursorBlink, setCursorBlink] = useState(true);
   const [email, setEmail] = useState('');
   const [userType, setUserType] = useState('');
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [showForm, setShowForm] = useState(false);
   const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCursorBlink((prev) => !prev);
-    }, 500);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,209 +59,161 @@ export default function HeroSection() {
     }
   };
 
-  const titleWords = ["Swanirbhar", "2.0"];
-  const subtitleWords = ["The", "National", "Ecosystem"];
+  const handleJoinClick = () => {
+    setShowForm(true);
+  };
 
   return (
-    <section ref={sectionRef} className="relative w-full overflow-hidden bg-white">
-      {/* 1. HERO CONTENT AREA - Restricted Animation */}
-      <div className="relative w-full pt-32 pb-20 md:pt-48 md:pb-32 min-h-[90vh] flex flex-col justify-center overflow-hidden">
-        {/* Neural Noise Animation Background - Strictly contained in this top block */}
+    <section ref={sectionRef} className="relative w-full overflow-hidden bg-black text-white">
+      {/* 1. HERO CONTENT AREA (Cinematic Dark) */}
+      <div className="relative w-full pt-48 pb-32 min-h-[100svh] flex flex-col items-center justify-center overflow-hidden">
+        {/* Space/Neural Background */}
         <div className="absolute inset-0 pointer-events-none z-0">
-          <NeuralNoise className="absolute inset-0" />
-          <div className="absolute top-20 left-10 w-[500px] h-[500px] bg-[#dbeafe] rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob"></div>
-          <div className="absolute top-20 right-10 w-[500px] h-[500px] bg-[#eff6ff] rounded-full mix-blend-multiply filter blur-[100px] opacity-40 animate-blob animation-delay-2000"></div>
-          <div className="absolute -bottom-32 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#eef2ff] rounded-full mix-blend-multiply filter blur-[100px] opacity-30 animate-blob animation-delay-4000"></div>
+          <NeuralNoise className="absolute inset-0 opacity-40" />
+          {/* Subtle glowing orb in center */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse-glow"></div>
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 flex flex-col items-center justify-center text-center w-full">
-          <motion.h1
-            className="font-serif text-6xl md:text-8xl lg:text-9xl leading-tight text-slate-900 tracking-tight font-black"
-          >
-            {titleWords.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={`inline-block mr-4 md:mr-8 last:mr-0 ${word === '2.0' ? 'italic text-slate-400' : ''}`}
-              >
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
-
+        <div className="relative z-10 max-w-5xl mx-auto px-4 flex flex-col items-center text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.3 }}
-            className="mt-6 flex flex-wrap justify-center gap-x-4 md:gap-x-6 text-xl md:text-2xl text-slate-500 font-sans font-bold uppercase tracking-[0.3em]"
+            transition={{ duration: 1 }}
+            className="mb-8 px-4 py-1.5 glass-pill text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400"
           >
-            {subtitleWords.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, filter: "blur(10px)" }}
-                animate={{ opacity: 1, filter: "blur(0px)" }}
-                transition={{ duration: 0.8, delay: 0.4 + i * 0.1 }}
-              >
-                {word}
-              </motion.span>
-            ))}
+            The Future of Incubation
           </motion.div>
+
+          {/* S_2.0 Title - Template Inspired */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-[15vw] md:text-[12vw] font-black tracking-tighter leading-none mb-8 select-none"
+          >
+            S_2.0
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="mt-10 mb-12 text-base md:text-lg text-slate-400 max-w-xl font-sans"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="text-zinc-400 text-lg md:text-xl max-w-2xl mb-12 font-medium"
           >
-            Bridging the gap between academic learning and industry readiness.
+            Bridging the gap between academic learning and industry readiness in the Indian ecosystem.
           </motion.p>
 
-          <div className="w-full max-w-xl">
-            <AnimatePresence mode="wait">
-              {status === 'success' ? (
-                <motion.div
-                  key="success-message"
-                  initial={{ opacity: 0, scale: 0.8, y: 30, rotateX: -15 }}
-                  animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, y: -20 }}
-                  transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full bg-white/80 backdrop-blur-md shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#f1f5f9] rounded-[2rem] p-10 md:p-14 flex flex-col items-center justify-center text-center"
+          <AnimatePresence mode="wait">
+            {!showForm ? (
+              <motion.div 
+                key="actions"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col sm:flex-row items-center gap-4"
+              >
+                <button 
+                  onClick={handleJoinClick}
+                  className="px-12 py-5 bg-white text-black text-[11px] font-black uppercase tracking-widest rounded-full hover:bg-zinc-200 transition-all active:scale-95 glow-shadow"
                 >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
-                    className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mb-6"
-                  >
-                    <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                      <motion.path
-                        initial={{ pathLength: 0 }}
-                        animate={{ pathLength: 1 }}
-                        transition={{ delay: 0.5, duration: 0.6 }}
-                        strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </motion.div>
-                  <motion.h3 className="text-2xl font-serif text-slate-900 mb-4 tracking-tight">Priority Access Secured.</motion.h3>
-                  <p className="text-slate-500 font-sans leading-relaxed">
-                    Welcome to the architecture of India's innovation economy. You will be notified when Phase 1 Cohort allocation begins.
-                  </p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="waitlist-form"
-                  onSubmit={handleSubmit}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -20, filter: "blur(10px)" }}
-                  transition={{ duration: 1, delay: 1.6, ease: [0.16, 1, 0.3, 1] }}
-                  className="w-full bg-white/80 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-[#f1f5f9] rounded-[2rem] p-8 md:p-10 flex flex-col gap-8 items-center relative z-10"
+                  Join the Waitlist
+                </button>
+                <button 
+                  className="px-12 py-5 glass-pill text-[11px] font-black uppercase tracking-widest text-white hover:bg-white/10 transition-all active:scale-95"
                 >
-                  <div className="w-full flex flex-col gap-6">
-                    <div className="flex flex-col gap-2 text-left">
-                      <label className="text-sm font-medium text-slate-400 uppercase tracking-wider pl-4">I am a...</label>
-                      <div className="relative">
-                        <select
-                          value={userType}
-                          onChange={(e) => setUserType(e.target.value)}
-                          disabled={status === 'loading'}
-                          required
-                          className="w-full appearance-none bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-slate-700 outline-none focus:ring-2 focus:ring-slate-400/20 focus:bg-white transition-all font-sans cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <option value="" disabled hidden>Select Role...</option>
-                          <option value="student">Student / Learner</option>
-                          <option value="university">University / Institute</option>
-                          <option value="industry">Industry Partner</option>
-                          <option value="startup">Startup Founder</option>
-                        </select>
-                        <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none">
-                          <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1 1.5L6 6.5L11 1.5" stroke="#475569" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 text-left">
-                      <label className="text-sm font-medium text-slate-400 uppercase tracking-wider pl-4">Email Address</label>
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={status === 'loading'}
-                        required
-                        placeholder="hello@example.com"
-                        className={`w-full bg-slate-50/50 border border-slate-100 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-300 outline-none focus:ring-2 focus:ring-slate-400/20 focus:bg-white transition-all font-sans disabled:opacity-50 disabled:cursor-not-allowed ${status === 'error' ? 'ring-2 ring-red-400/20 bg-red-50/10 border-red-200' : ''}`}
-                      />
-                    </div>
-
-                    <motion.button
-                      type="submit"
-                      disabled={status === 'loading'}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="mt-4 w-full bg-slate-900 text-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-all duration-300 outline-none flex items-center justify-center gap-3 disabled:opacity-80 disabled:cursor-not-allowed"
-                    >
-                      {status === 'loading' ? 'Securing Spot...' : 'Join Priority List'}
-                    </motion.button>
-                  </div>
-                </motion.form>
-              )}
-            </AnimatePresence>
-          </div>
+                  Explore Research
+                </button>
+              </motion.div>
+            ) : status === 'success' ? (
+              <motion.div
+                key="success"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="glass-pill px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-[#00E5FF] border-[#00E5FF]/20"
+              >
+                Priority Access Secured
+              </motion.div>
+            ) : (
+              <motion.form 
+                key="form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                onSubmit={handleSubmit}
+                className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-md"
+              >
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="w-full h-14 bg-white/5 border border-white/10 rounded-full px-8 text-sm focus:outline-none focus:border-white/20 transition-all"
+                />
+                <select 
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  className="w-full sm:w-40 h-14 bg-white/5 border border-white/10 rounded-full px-6 text-xs uppercase font-bold tracking-widest focus:outline-none focus:border-white/20 appearance-none"
+                >
+                  <option value="" disabled className="bg-black">Role</option>
+                  <option value="student" className="bg-black">Student</option>
+                  <option value="startup" className="bg-black">Startup</option>
+                  <option value="industry" className="bg-black">Industry</option>
+                </select>
+                <button 
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="h-14 aspect-square flex items-center justify-center bg-white text-black rounded-full hover:bg-zinc-200 transition-all"
+                >
+                  {status === 'loading' ? '...' : '→'}
+                </button>
+              </motion.form>
+            )}
+          </AnimatePresence>
         </div>
+
+        {/* Scroll Hint */}
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 text-zinc-600"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M12 5v14M19 12l-7 7-7-7" />
+          </svg>
+        </motion.div>
       </div>
 
-      {/* 2. COMMUNITY AREA - Pure white background, absolutely NO animation bleed */}
-      <div className="relative z-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-24 flex flex-col items-center">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-serif text-slate-900 tracking-tight">
-              Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Community Members</span>
-            </h2>
+      {/* 2. COMMUNITY SECTION (Transformed) */}
+      <div className="relative z-10 bg-black pt-20 pb-40">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex flex-col items-center mb-20 text-center">
+            <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-zinc-800 mb-8" />
+            <p className="text-zinc-600 text-[9px] font-bold uppercase tracking-[0.6em]">
+              Backed by leading academic institutions
+            </p>
           </div>
 
-          <div className="w-full relative py-8 overflow-hidden mb-8">
-            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+          <div className="w-full relative overflow-hidden">
+            <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-black to-transparent z-10" />
+            <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-black to-transparent z-10" />
             
-            <div className="flex w-full group overflow-hidden">
-              <div className="animate-scroll-marquee flex items-center gap-20 pr-20">
-                {communityLogos.map((member, idx) => (
-                  <div key={idx} className="flex-shrink-0 flex items-center justify-center w-[160px] h-24">
-                    <img src={member.logo} alt={member.name} className="max-h-full max-w-full object-contain transition-all duration-500 hover:scale-110" />
-                  </div>
-                ))}
-                {/* Duplicate for infinite effect */}
-                {communityLogos.map((member, idx) => (
-                  <div key={`dup-${idx}`} className="flex-shrink-0 flex items-center justify-center w-[160px] h-24">
-                    <img src={member.logo} alt={member.name} className="max-h-full max-w-full object-contain transition-all duration-500 hover:scale-110" />
-                  </div>
-                ))}
-              </div>
+            <div className="flex animate-scroll-marquee gap-32 grayscale brightness-200 contrast-150">
+              {communityLogos.map((member, idx) => (
+                <div key={idx} className="flex-shrink-0 opacity-20 hover:opacity-100 transition-all duration-700">
+                  <img src={member.logo} alt={member.name} className="h-8 w-auto object-contain" />
+                </div>
+              ))}
+              {/* Duplicate */}
+              {communityLogos.map((member, idx) => (
+                <div key={`dup-${idx}`} className="flex-shrink-0 opacity-20 hover:opacity-100 transition-all duration-700">
+                  <img src={member.logo} alt={member.name} className="h-8 w-auto object-contain" />
+                </div>
+              ))}
             </div>
           </div>
-
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.3em] mb-12">
-            Trusted by leading global institutions & corporations
-          </p>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="flex flex-col items-center gap-2"
-          >
-            <span className="text-[10px] uppercase tracking-[0.3em] text-slate-400 font-bold">Scroll to explore</span>
-            <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 1.5, repeat: Infinity }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2">
-                <path d="M12 5v14M5 12l7 7 7-7" />
-              </svg>
-            </motion.div>
-          </motion.div>
         </div>
       </div>
     </section>

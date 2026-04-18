@@ -64,92 +64,40 @@ export default function Header() {
       <motion.header
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-[1440px] z-50 transition-all duration-500 ease-out ${
-          scrolled 
-            ? 'py-4 backdrop-blur-2xl bg-white/80 shadow-[0_8px_30px_rgba(0,0,0,0.04)] border-b border-[#f1f5f9]' 
-            : 'py-6 bg-transparent'
-        }`}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="fixed top-6 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-50 px-4"
       >
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
-
-          {/* Left: Brand */}
-          <div className="flex items-center gap-6">
-            <div 
-              onClick={() => window.location.href = '/'}
-              className="flex items-center gap-1 cursor-pointer group"
-            >
-              <img src="/swanirbhar%20logo/logo-removebg-preview.png" alt="Swanirbhar Logo" className="h-8 w-auto" />
-            </div>
+        <div className="glass-pill px-6 py-4 flex items-center justify-between">
+          {/* Brand */}
+          <div 
+            onClick={() => window.location.href = '/'}
+            className="flex items-center gap-2 cursor-pointer group"
+          >
+            <img src="/swanirbhar%20logo/logo-removebg-preview.png" alt="Swanirbhar Logo" className="h-6 w-auto brightness-200" />
+            <span className="text-white font-bold text-xs uppercase tracking-widest hidden sm:inline-block">Swanirbhar</span>
           </div>
 
-          {/* Center: Navigation - Desktop */}
-          <nav className="hidden lg:flex items-center gap-8 bg-white/80 backdrop-blur-md border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] px-8 py-3 rounded-full">
+          {/* Navigation - Desktop */}
+          <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((item) => (
               <button 
                 key={item.name} 
                 onClick={() => handleNavLinkClick(item)}
-                className="text-[11px] font-bold text-slate-500 hover:text-slate-900 transition-colors uppercase tracking-[0.15em]"
+                className="text-[10px] font-bold text-zinc-400 hover:text-white transition-colors uppercase tracking-[0.2em]"
               >
                 {item.name}
               </button>
             ))}
           </nav>
 
-          {/* Right: CTA + Mobile Toggle */}
-          <div className="flex items-center gap-4">
-            <button 
-              onClick={handleJoinClick}
-              className="hidden md:flex bg-slate-900 text-white px-7 py-3 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-all duration-300 active:scale-95"
-            >
-              Join Waitlist
-            </button>
-
-            {/* Mobile Menu Toggle */}
-            <button 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden bg-white p-3 rounded-full border border-[#f1f5f9] shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-slate-700 active:scale-95 transition-transform"
-            >
-              {mobileMenuOpen ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-              )}
-            </button>
-          </div>
+          {/* CTA */}
+          <button 
+            onClick={handleJoinClick}
+            className="bg-white text-black px-6 py-2 text-[10px] font-black uppercase tracking-widest hover:bg-zinc-200 transition-all rounded-full"
+          >
+            Join
+          </button>
         </div>
-
-        {/* Mobile Menu Dropdown */}
-        <motion.div 
-          initial={false}
-          animate={mobileMenuOpen ? { height: 'auto', opacity: 1 } : { height: 0, opacity: 0 }}
-          className="md:hidden overflow-hidden bg-[#FFFFFF]"
-        >
-          <div className="px-4 py-6 flex flex-col gap-4 border-t border-slate-200/50 mt-4">
-            {navLinks.map((item) => (
-              <button 
-                key={item.name} 
-                onClick={() => handleNavLinkClick(item)}
-                className="w-full text-left py-3 px-4 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors uppercase tracking-[0.1em]"
-              >
-                {item.name}
-              </button>
-            ))}
-            <button 
-              onClick={handleJoinClick}
-              className="w-full mt-2 bg-slate-900 text-white px-6 py-4 text-xs font-bold uppercase tracking-widest hover:bg-black rounded-none transition-colors"
-            >
-              Join Waitlist
-            </button>
-          </div>
-        </motion.div>
       </motion.header>
 
       {/* Global Slide-Out Menu */}
