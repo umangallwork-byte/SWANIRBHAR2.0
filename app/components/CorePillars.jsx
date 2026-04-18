@@ -1,46 +1,67 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { Landmark, Factory, Coins, GraduationCap } from 'lucide-react';
 
 const pillars = [
   {
-    title: "National Network",
-    description: "A borderless ecosystem connecting innovation hubs across 22+ states.",
-    icon: "N"
+    icon: <Landmark className="text-accent" size={24} />,
+    title: "University Integration",
+    description: "Transforming institutions into hubs of hardware innovation through structured curriculum.",
   },
   {
-    title: "Industry Integration",
-    description: "Curriculum designed and delivered in partnership with global tech leaders.",
-    icon: "I"
+    icon: <Factory className="text-accent" size={24} />,
+    title: "Industry Participation",
+    description: "Direct involvement from tech leaders to sync academic output with market demands.",
   },
   {
-    title: "Skills Velocity",
-    description: "Adaptive learning pathways that sync with live industry requirements.",
-    icon: "S"
+    icon: <Coins className="text-accent" size={24} />,
+    title: "Venture Capital",
+    description: "Unlocking vital funding pathways for sustainable hardware growth and scaling.",
+  },
+  {
+    icon: <GraduationCap className="text-accent" size={24} />,
+    title: "Early Ecosystem",
+    description: "Cultivating entrepreneurial mindsets from primary education through specialized centers.",
   }
 ];
 
 export default function CorePillars() {
   return (
-    <section className="w-full py-40 bg-black text-white">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <section className="w-full py-40 relative bg-background overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col items-center">
+        
+        <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="text-center mb-24"
+        >
+            <h2 className="text-4xl md:text-6xl font-display font-extrabold tracking-tighter text-foreground mb-4">Core Architecture.</h2>
+            <div className="w-12 h-1 bg-accent mx-auto rounded-full" />
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 w-full">
           {pillars.map((pillar, idx) => (
             <motion.div
-              key={pillar.title}
+              key={idx}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: idx * 0.1 }}
-              className="p-10 glass-pill border-white/5 flex flex-col items-start gap-8 hover:border-white/20 hover:bg-white/[0.07] transition-all group"
+              transition={{ delay: idx * 0.1 }}
+              className="group p-10 rounded-[32px] nm-flat nm-transition nm-flat-hover flex flex-col items-center text-center nm-transition"
             >
-              <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center font-black text-xs text-[#00E5FF] group-hover:scale-110 transition-transform">
+              {/* Inset Well for Icon */}
+              <div className="w-16 h-16 rounded-2xl nm-inset-deep mb-8 flex items-center justify-center nm-transition group-hover:nm-flat">
                 {pillar.icon}
               </div>
-              <div>
-                <h3 className="text-xl font-black mb-4 tracking-tight">{pillar.title}</h3>
-                <p className="text-zinc-500 text-sm leading-relaxed">{pillar.description}</p>
-              </div>
+
+              <h3 className="font-display text-xl font-bold text-foreground mb-6">
+                {pillar.title}
+              </h3>
+              <p className="font-sans text-muted text-sm leading-relaxed font-medium">
+                {pillar.description}
+              </p>
             </motion.div>
           ))}
         </div>
